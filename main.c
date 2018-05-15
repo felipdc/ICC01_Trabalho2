@@ -267,40 +267,51 @@ size_t line_number (FILE *fp) {
 	return ++line_count;
 
 }
+
+
+size_t num_of_char (FILE *fp) {
+
+	int c = 0;
+	size_t num_of_char = 0;
+
+	while ((c = fgetc(fp)) != EOF) ++num_of_char;
+
+	rewind(fp);
+	return num_of_char;
+}
+
+
+char *file_to_string (FILE *fp) {
+
+	int c = 0, char_counter = 0;
+	char *file_string;
+	file_string = malloc(num_of_char(fp));
+
+	while ((c = fgetc(fp)) != EOF) file_string[char_counter++] = c;
+
+	rewind(fp);
+	return file_string;
+}
+
+
+unsigned number_of_rows (char *csv_string) {
+	unsigned row_counter = 0, char_counter = 0;
+	while (csv_string[char_counter] != '\0') {
+		if (csv_string[char_counter++] == '\n') ++row_counter;
+	}
+	return ++row_counter;
+}
  
 
 int main (int argc, char *argv[]) {
+
     FILE *fp;
     fp = fopen ("students.csv", "r");
-    int c = 0;
-    while ((c  = fgetc(fp)) != EOF) {
-    	printf("%c", c);
-    }
-    rewind(fp);
 
-    size_t sz = number_of_students(fp);
+    char *file_string = file_to_string(fp);
+    printf("%s\n", file_string);
 
-    char **foo;
-    foo = malloc(256);
-	for (int i = 0; i < 256; ++i) {
-		foo[i] = malloc(256);
-	}
-    assign_row_to_array(fp, foo, 2);
-    printf("\n");
-    for (int i = 0; i < 11; ++i) {
-    	printf("%s ", foo[i]);
-    }
-
-    char **bar;
-    bar = malloc(sz + 1);
-    for (int i = 0; i < sz + 1; ++i) {
-    	bar[i] = malloc(256);
-    }
-    assign_column_to_array(fp, bar, 3);
-    for (int i = 0; i < 4; ++i) {
-    	printf("%s ", bar[i]);
-    }
-
+    printf("%u\n", number_of_rows(file_string));
 
     fclose(fp);
     return 0;

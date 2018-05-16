@@ -1,4 +1,6 @@
 name, mark1, mark2, markwork1, markwork2, markwork3, markwork4, work1pos, work2pos, work3pos, work4pos
-rob, 10, 10, 9, 8, 10, 10
-john, 8, 9, 7, 7, 7, 9
-april, 10, 10, 10, 10, 9, 10
+rob, 10, 10, 9, 8, 10, 10, 1, 1, 1, 1
+john, 8, 9, 7, 7, 7, 9, 2, 3, 2, 2
+april, 10, 10, 10, 10, 9, 10, 4, 2, 2, 3
+carl, 6, 6, 6, 9, 8, 3, 3, 4, 4, 4
+robin, 7, 7, 7, 8, 10, 10, 1, 1, 1, 1

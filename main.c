@@ -26,9 +26,11 @@ int main (int argc, char *argv[]) {
     fp = fopen ("students.csv", "r");
 
     char *file_string = file_to_string(fp);
+   // char ***data = string_data_to_matrix(file_string);
 
-    display_first_row ("john", file_string);
-    display_column ("mark1", file_string);
+    display_first_row ("robin", file_string);
+    display_column ("work4pos", file_string);
+
 
     fclose(fp);
     return 0;

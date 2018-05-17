@@ -36,7 +36,7 @@ char **get_column_by_name (char *title, char ***data, char *file_string) {
 	if (column_idx == -1) {
 		return NULL;
 	}
-	column_data = malloc (column_size);
+	column_data = malloc (column_size * 256);
 	for (int i = 0; i < column_size; ++i) {
 		column_data[i] = malloc(256);
 		strcpy (column_data[i], data[i][column_idx]);
@@ -87,15 +87,16 @@ size_t number_of_columns (char *csv_string) {
 char ***string_data_to_matrix (char *csv_string) {
 	char ***data;
 	unsigned row_idx = 0, buffer_idx = 0, string_idx = 0, column_idx = 0;
-	char buffer[256] = ""; // Store information until next ','
+	char buffer[256] = ""; // Hold information until next comma
 
 	/** Memory allocation for data **/
 	size_t num_of_rows = number_of_rows(csv_string);
     size_t num_of_cols = number_of_columns(csv_string);
+
 	data = malloc(num_of_rows * num_of_cols * 256);
-    for (int i = 0; i < num_of_rows; ++i) {
-    	data[i] = malloc(num_of_cols * num_of_rows);
-    	for (int j = 0; j < num_of_cols; ++j) {	
+    for (int i = 0; i < num_of_rows + 1; ++i) {
+    	data[i] = malloc(num_of_cols * 256);
+    	for (int j = 0; j < num_of_cols + 1; ++j) {	
     		data[i][j] = malloc(256);
     	}
     }
@@ -117,7 +118,7 @@ char ***string_data_to_matrix (char *csv_string) {
 		}
 
 		if (csv_string[string_idx] == '\n') {
-			buffer[buffer_idx] = '\0'; // Stop buffer
+			buffer[buffer_idx - 1] = '\0'; // Stop buffer before '\n'
 			buffer_idx = 0; // Reset buffer index
 			strcpy (data[row_idx][column_idx], buffer);
 			++string_idx;
@@ -150,9 +151,9 @@ void display_first_row (char *title, char *file_string) {
 	// If name does not exist, return
 	if (row == NULL) {
 		return;
-	}
+	}	
 
-	for (int i = 0; i < row_size; ++i) {
+	for (int i = 0; i < row_size ; ++i) {
 		printf("{%s: %s} ", data[0][i], row[i]);
 	}
 	printf("\n");

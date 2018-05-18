@@ -178,3 +178,10 @@ void display_column (char *title, char *file_string) {
 	printf("}\n");
 
 }
+
+
+bool string_to_csv (const char *file_string, FILE *fp) {
+	int result = fputs (file_string, fp);
+	if (result < 0) return false; // In case of error
+	return true; // else
+}

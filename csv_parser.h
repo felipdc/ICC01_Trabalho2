@@ -2,6 +2,10 @@
 #define CSV_PARSER_H_
 
 
+typedef enum {false, true} bool;
+
+
+bool string_to_csv (const char *file_string, FILE *fp);
 char *file_to_string (FILE *fp);
 char **get_row_by_name (char *name, char ***data, size_t column_size);
 char **get_column_by_name (char *title, char ***data, char *file_string);

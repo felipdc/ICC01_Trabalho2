@@ -118,7 +118,7 @@ char ***string_data_to_matrix (char *csv_string) {
 		}
 
 		if (csv_string[string_idx] == '\n') {
-			buffer[buffer_idx - 1] = '\0'; // Stop buffer before '\n'
+			buffer[buffer_idx] = '\0'; // Stop buffer
 			buffer_idx = 0; // Reset buffer index
 			strcpy (data[row_idx][column_idx], buffer);
 			++string_idx;

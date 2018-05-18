@@ -158,12 +158,12 @@ char *data_to_file_string (Data *data, size_t data_size) {
 	// Append csv title to new_file_string
 	strcat (new_file_string, "name, mark1, mark2, markwork1, markwork2, "
 								"markwork3, markwork4, work1pos, "
-								"work2pos, work3pos, work4pos\n");
+								"work2pos, work3pos, work4pos");
 
 	for (int i = 1; i < data_size; ++i) {
 		sprintf(buffer, 
-				"%s, %0.2f, %0.2f, %0.2f, %0.2f, " 
-				"%0.2f, %0.2f, %u, %u, %u, %u\n", 
+				"\n%s, %0.2f, %0.2f, %0.2f, %0.2f, " 
+				"%0.2f, %0.2f, %u, %u, %u, %u", 
 				data[i].name, data[i].test_grade[0],
 				data[i].test_grade[1], data[i].work_grade[0],
 				data[i].work_grade[1], data[i].work_grade[2],
@@ -187,7 +187,7 @@ int main (int argc, char *argv[]) {
     Data *students_data;
     size_t data_size = number_of_rows (file_string);
     students_data = malloc(sizeof(Data) * data_size);
-
+    //printf("%s\n", file_string);
     char ***data = string_data_to_matrix (file_string);
     data_to_struct (data, students_data, data_size);
     //show_student_stats ("rob", students_data, data_size);

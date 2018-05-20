@@ -17,34 +17,6 @@ char *file_to_string (FILE *fp) {
 }
 
 
-char **get_row_by_name (char *name, char ***data, size_t column_size) {
-	unsigned row_counter = 0;
-	for (row_counter = 0; row_counter < column_size; ++row_counter) {
-		if (strcmp (data[row_counter][0], name) == 0) {
-			return data[row_counter];
-		}
-	}
-	return NULL;
-}
-
-
-char **get_column_by_name (char *title, char ***data, char *file_string) {
-	size_t column_idx = find_title_idx (title, data, file_string);
-	size_t column_size = number_of_rows (file_string);
-	char **column_data;
-	// Return NULL if title does not exist
-	if (column_idx == -1) {
-		return NULL;
-	}
-	column_data = malloc (column_size * 256);
-	for (int i = 0; i < column_size; ++i) {
-		column_data[i] = malloc(256);
-		strcpy (column_data[i], data[i][column_idx]);
-	}
-	return column_data;
-}
-
-
 size_t find_title_idx (char *title, char ***data, char *file_string) {
 	unsigned col_counter = 0;
 	size_t col_num = number_of_columns(file_string);
@@ -138,45 +110,6 @@ char ***string_data_to_matrix (char *csv_string) {
 	strcpy (data[row_idx][column_idx], buffer);
 
 	return data;
-}
-
-
-/** Display a formatted row given it`s first column name **/
-
-void display_first_row (char *title, char *file_string) {
-	char ***data = string_data_to_matrix (file_string);
-	char **row = get_row_by_name (title, data, number_of_rows (file_string));
-	size_t row_size = number_of_columns (file_string);
-
-	// If name does not exist, return
-	if (row == NULL) {
-		return;
-	}	
-
-	for (int i = 0; i < row_size ; ++i) {
-		printf("{%s: %s} ", data[0][i], row[i]);
-	}
-	printf("\n");
-}
-
-/** Display a formmated column given a csv title **/
-
-void display_column (char *title, char *file_string) {
-	char ***data = string_data_to_matrix (file_string);
-	char **col = get_column_by_name (title, data, file_string);
-	size_t col_size = number_of_rows (file_string);
-
-	// If name does not exist, return
-	if (col == NULL) {
-		return;
-	}
-
-	printf ("%s: { ", col[0]);
-	for (int i = 1; i < col_size; ++i) {
-		printf("%s ", col[i]);
-	}
-	printf("}\n");
-
 }
 
 

@@ -9,7 +9,6 @@ const char *g_stats_names[] = {"name", "test_grade", "work_grade",
 							"work_pos"};
 
 
-
 void data_to_struct (char ***data, Data *students_data, size_t students_size) {
 	for (int i = 1; i < students_size; ++i) {
 		// Assign students names

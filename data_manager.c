@@ -79,6 +79,8 @@ void show_specific_student_stats (const char *student_name,
 					students_data[student_name_index].work_pos[i]);
 			}
 			break;
+		default:
+			printf ("Stat not found in database\n");
 	}
 
 }

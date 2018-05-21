@@ -21,6 +21,11 @@ void data_to_struct (char ***data, Data *students_data, size_t students_size);
 void show_student_stats (const char *student_name, Data *students_data, 
 						 size_t students_size);
 
+
+void show_specific_stats (int stat_code, Data *students_data,
+							size_t students_size);
+
+
 void show_specific_student_stats (const char *student_name,
 					 				int stat_code, Data *students_data,
 					 				size_t students_size);

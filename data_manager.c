@@ -30,16 +30,38 @@ void show_student_stats (const char *student_name,
 	for (int i = 0; i < students_size; ++i) {
 		if (strcmp(students_data[i].name, student_name) == 0) {
 			 printf("Name: %s\n", student_name);
-			 printf("Test 1 Grade: %0.2f\n", students_data[i].test_grade[0]);
-			 printf("Test 2 Grade: %0.2f\n", students_data[i].test_grade[1]);
+			 printf("Nota Prova 1: %0.2f\n", students_data[i].test_grade[0]);
+			 printf("Nota Prova 1: %0.2f\n", students_data[i].test_grade[1]);
 			 for (int j = 0; j < 4; ++j) {
-			 	printf("Work %d - Grade: %0.2f, Position: %u\n", j + 1,
+			 	printf("Trabalho %d - Nota: %0.2f, Posição no grupo: %u\n", j + 1,
 			 	 students_data[i].work_grade[j], students_data[i].work_pos[j]);
 			 }
 			 return;
 		}
 	}
 	printf("Name '%s' not found in database. \n", student_name);
+}
+
+
+void show_specific_stats (int stat_code, Data *students_data,
+							size_t students_size) {
+	for (int students_num = 1; students_num < students_size; ++students_num) {
+		printf ("\nNome: %s\n\n", students_data[students_num].name);
+		switch (stat_code) {
+			case TEST_ATRIB:
+				printf ("Nota prova 1: %0.2f\nNota prova 2: %0.2f\n", 
+					students_data[students_num].test_grade[0],
+					students_data[students_num].test_grade[1]);
+				break;
+			case WORK_G_ATRIB:
+				for (int i = 0; i < 4; ++i) {
+					printf("Trabalho %d: Nota: %0.2f, Poisição no grupo: %u\n",
+					 		i + 1, students_data[students_num].work_grade[i],
+					 		students_data[students_num].work_pos[i]);
+				}
+				break;
+		}
+	}
 }
 
 
@@ -54,28 +76,28 @@ void show_specific_student_stats (const char *student_name,
 			break;
 		}
 	} if (student_name_index == -1) {
-		printf ("Name '%s' not found in database. \n", student_name);
+		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
 		return;
 	}
 	
 	switch (stat_code) {
 		case NAME_ATRIB:
-			printf ("Name: %s\n", students_data[student_name_index].name);
+			printf ("Nome: %s\n", students_data[student_name_index].name);
 			break;
 		case TEST_ATRIB:
-			printf ("Test grade 1: %0.2f\nTest grade 2: %0.2f\n", 
+			printf ("Nota Prova 1: %0.2f\nNota Prova 2: %0.2f\n", 
 				students_data[student_name_index].test_grade[0],
 				students_data[student_name_index].test_grade[1]);
 			break;
 		case WORK_G_ATRIB:
 			for (int i = 0; i < 4; ++i) {
-				printf("Work %d grade: %0.2f\n", i + 1, 
+				printf("Nota trabalho %d: %0.2f\n", i + 1, 
 					students_data[student_name_index].work_grade[i]);
 			}
 			break;
 		case WORK_P_ATRIB:
 			for (int i = 0; i < 4; ++i) {
-				printf("Work %d position: %u\n", i + 1,
+				printf("Posição trabalho %d: %u\n", i + 1,
 					students_data[student_name_index].work_pos[i]);
 			}
 			break;
@@ -131,6 +153,11 @@ void display_data (Data *students_data, size_t students_size) {
 	for (int i = 1; i < students_size; ++i) {
 		printf("%u\n", students_data[i].work_pos[3]);
 	}
+}
+
+
+void remove_student (Data *students_data, size_t *students_size) {
+	(*students_size)--;
 }
 
 

@@ -9,7 +9,6 @@
 
 
 struct dat {
-	size_t idx;
     char name[256];
     float test_grade[2];
     float work_grade[4];
@@ -20,19 +19,16 @@ struct dat {
 
 void data_to_struct (char ***data, Data *students_data, size_t students_size);
 void data_to_node (char ***data, Data *current_data_node, size_t node_idx);
-
 void show_student_stats (const char *student_name, Data *students_data);
-
-
 void show_specific_stats (int stat_code, Data *students_data);
 
-
 void show_specific_student_stats (const char *student_name,
-					 				int stat_code, Data *students_data,
-					 				size_t students_size);
+					 				int stat_code, Data *students_data);
 
 int get_stat_code (const char *goal_name);
 void display_data (Data *students_data);
+void push_student (const char *student_name, Data **students_data);
+void pop_student (const char *student_name, Data *students_data);
 char *data_to_file_string (Data *data, size_t data_size);
 
 

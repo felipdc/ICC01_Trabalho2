@@ -27,7 +27,7 @@ void back_to_menu_message () {
 
 
 char *get_input_name () {
-	printf ("Digite o nome do aluno a ser consultado.\n");
+	printf ("Digite o nome do aluno em questão.\n");
 	char *name = malloc (256);
 	scanf ("%s", name);
 	getchar (); // Get return input from keyboard
@@ -47,6 +47,18 @@ int get_specific_code () {
 	scanf ("%d", &stat_code);
 	getchar ();
 	return stat_code;
+}
+
+// Return 0 to include, 1 to remove
+int include_or_remove () {
+	int choose = -1;
+	printf ("\t ### Digite 0 para incluir ou 1 para excluir\n");
+	do {
+		scanf ("%d", &choose);
+		getchar ();
+	} while (choose != 0 && choose != 1);
+
+	return choose;
 }
 
 
@@ -70,14 +82,19 @@ void option_handle (Data *students_data) {
 				show_specific_stats (WORK_G_ATRIB, students_data);
 				break;
 			case show_stud_spec_stat:
-				// show_specific_student_stats (get_input_name (), get_specific_code (),
-				// 					students_data, data_size);
+				show_specific_student_stats (get_input_name (), get_specific_code (),
+											students_data);
 				break;
 			case incl_rm_work:
 				break;
 			case incl_rm_test:
 				break;
 			case incl_rm_stud:
+				if (include_or_remove () == 1) {
+					pop_student (get_input_name (), students_data);
+				} else {
+					push_student (get_input_name (), &students_data);
+				}
 				break;
 			default:
 				printf ("Opção inválida, tente novamente.\n");

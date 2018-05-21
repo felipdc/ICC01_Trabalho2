@@ -41,20 +41,20 @@ void show_student_stats (const char *student_name, Data *students_data) {
 		}
 		current = current->next;
 	}
-	printf("Name '%s' not found in database. \n", student_name);
+	printf("Nome '%s' não encontrado no banco de dados. \n", student_name);
 }
 
 
 void show_specific_stats (int stat_code, Data *students_data) {
-	Data *current = students_data->next;
+	Data *current = students_data;
 	while (current->next != NULL) {
+		current = current->next;
 		printf ("\nNome: %s\n\n", current->name);
 		switch (stat_code) {
 			case TEST_ATRIB:
 				printf ("Nota prova 1: %0.2f\nNota prova 2: %0.2f\n", 
 					current->test_grade[0],
 					current->test_grade[1]);
-					current = current->next;
 				break;
 			case WORK_G_ATRIB:
 				for (int i = 0; i < 4; ++i) {
@@ -62,7 +62,6 @@ void show_specific_stats (int stat_code, Data *students_data) {
 					 		i + 1, current->work_grade[i],
 					 		current->work_pos[i]);
 				}
-				current = current->next;
 				break;
 		}
 	}
@@ -70,39 +69,41 @@ void show_specific_stats (int stat_code, Data *students_data) {
 
 
 void show_specific_student_stats (const char *student_name,
-					 				int stat_code, Data *students_data,
-					 				size_t students_size) {
-	int student_name_index = -1;
+					 				int stat_code, Data *students_data) {
+
+	bool found = false;
+	Data *current = students_data->next;
 	// Find student name in data
-	for (int i = 0; i < students_size; ++i) {
-		if (strcmp(students_data[i].name, student_name) == 0) {
-			student_name_index = i;
+	while (current->next != NULL) {
+		if (strcmp(current->name, student_name) == 0) {
+			found = true;
 			break;
 		}
-	} if (student_name_index == -1) {
+		current = current->next;
+	} if (!found) {
 		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
 		return;
 	}
 	
 	switch (stat_code) {
 		case NAME_ATRIB:
-			printf ("Nome: %s\n", students_data[student_name_index].name);
+			printf ("Nome: %s\n", current->name);
 			break;
 		case TEST_ATRIB:
 			printf ("Nota Prova 1: %0.2f\nNota Prova 2: %0.2f\n", 
-				students_data[student_name_index].test_grade[0],
-				students_data[student_name_index].test_grade[1]);
+				current->test_grade[0],
+				current->test_grade[1]);
 			break;
 		case WORK_G_ATRIB:
 			for (int i = 0; i < 4; ++i) {
 				printf("Nota trabalho %d: %0.2f\n", i + 1, 
-					students_data[student_name_index].work_grade[i]);
+					current->work_grade[i]);
 			}
 			break;
 		case WORK_P_ATRIB:
 			for (int i = 0; i < 4; ++i) {
 				printf("Posição trabalho %d: %u\n", i + 1,
-					students_data[student_name_index].work_pos[i]);
+					current->work_pos[i]);
 			}
 			break;
 		default:
@@ -168,8 +169,60 @@ void display_data (Data *students_data) {
 	}
 }
 
+void debugname (Data *student_data) {
+	Data *current = student_data;
+	while (current->next != NULL){
+		printf("%s\n", current->name);
+		current = current->next;
+	}
+}
+
+
+void test_node (Data *node) {
+	while (node->next != NULL) {
+		printf ("%s\n", node->name);
+		node = node->next;
+	}
+}
+
+
+
+void push_student (const char *student_name, Data ** student_head) {
+	Data *new_node = malloc (sizeof (Data));
+	Data *last = *student_head;
+
+	strcpy (new_node->name, "dasdsa");
+	new_node->next = NULL;	
+
+	while (last->next != NULL) last = last->next;
+
+	last->next = new_node;
+
+	test_node (last);
+}
+
+
+
+void pop_student (const char *student_name, Data *student_data) {
+	Data *current = student_data;
+	Data *temp_node = NULL;
+	while (current->next != NULL) {
+		if (strcmp (current->next->name, student_name) == 0) {
+			temp_node = current->next;
+			current->next = temp_node->next;
+			free (temp_node);
+			printf ("Estudante removido da lista com sucesso!\n");
+			return;
+		}
+		current = current->next;
+	}
+	// Else
+	printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
+}
+
 
 char *data_to_file_string (Data *data, size_t data_size) {
+	Data *current = data->next;
 	char *new_file_string;
 	new_file_string = malloc (sizeof(Data)*data_size);
 	char *buffer;
@@ -180,17 +233,18 @@ char *data_to_file_string (Data *data, size_t data_size) {
 								"markwork3, markwork4, work1pos, "
 								"work2pos, work3pos, work4pos");
 
-	for (int i = 1; i < data_size; ++i) {
+	while (current->next != NULL) {
 		sprintf(buffer, 
 				"\n%s, %0.2f, %0.2f, %0.2f, %0.2f, " 
 				"%0.2f, %0.2f, %u, %u, %u, %u", 
-				data[i].name, data[i].test_grade[0],
-				data[i].test_grade[1], data[i].work_grade[0],
-				data[i].work_grade[1], data[i].work_grade[2],
-				data[i].work_grade[3], data[i].work_pos[0],
-				data[i].work_pos[1], data[i].work_pos[2],
-		 		data[i].work_pos[3]);
+				current->name, current->test_grade[0],
+				current->test_grade[1], current->work_grade[0],
+				current->work_grade[1], current->work_grade[2],
+				current->work_grade[3], current->work_pos[0],
+				current->work_pos[1], current->work_pos[2],
+		 		current->work_pos[3]);
 		strcat (new_file_string, buffer);
+		current = current->next;
 	}
 	return new_file_string;
 }

@@ -50,7 +50,7 @@ int get_specific_code () {
 }
 
 
-void option_handle (Data *students_data, size_t data_size) {
+void option_handle (Data *students_data) {
 	Option option = 1;
 	while (option != 0) {
 		display_splash_screen ();
@@ -61,17 +61,17 @@ void option_handle (Data *students_data, size_t data_size) {
 				return;
 			case show_all_stud:
 				clrscr ();
-				show_specific_stats (NAME_ATRIB, students_data, data_size);
+				show_specific_stats (NAME_ATRIB, students_data);
 				break;
 			case show_all_test:
-				show_specific_stats (TEST_ATRIB, students_data, data_size);
+				show_specific_stats (TEST_ATRIB, students_data);
 				break;
 			case show_all_work:
-				show_specific_stats (WORK_G_ATRIB, students_data, data_size);
+				show_specific_stats (WORK_G_ATRIB, students_data);
 				break;
 			case show_stud_spec_stat:
-				show_specific_student_stats (get_input_name (), get_specific_code (),
-									students_data, data_size);
+				// show_specific_student_stats (get_input_name (), get_specific_code (),
+				// 					students_data, data_size);
 				break;
 			case incl_rm_work:
 				break;

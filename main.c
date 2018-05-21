@@ -30,6 +30,7 @@ void fill_list (Data *students_list, size_t size, char ***data) {
 		current = current->next;
 		data_to_node (data, current, i);
 	}
+	option_handle (students_list);
 }
 
 

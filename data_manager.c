@@ -9,18 +9,16 @@ const char *g_stats_names[] = {"name", "test_grade", "work_grade",
 							"work_pos"};
 
 
-void data_to_struct (char ***data, Data *students_data, size_t students_size) {
-	for (int i = 1; i < students_size; ++i) {
-		// Assign students names
-		strcpy (students_data[i].name, data[i][0]);
-		// Assign test grades
-		students_data[i].test_grade[0] = atof (data[i][1]);
-		students_data[i].test_grade[1] = atof (data[i][2]);
-		// Assign work grades and work positions
-		for (int j = 0; j < 4; ++j) {
-			students_data[i].work_grade[j] = atof (data[i][j + 3]);
-			students_data[i].work_pos[j] = atoi (data[i][j + 7]);
-		}
+void data_to_node (char ***data, Data *current_data_node, size_t node_idx) {
+	// Assign students names
+	strcpy (current_data_node->name, data[node_idx][0]);
+	// Assign test grades
+	current_data_node->test_grade[0] = atof (data[node_idx][1]);
+	current_data_node->test_grade[1] = atof (data[node_idx][2]);
+	// Assign work grades and work positions
+	for (int j = 0; j < 4; ++j) {
+		current_data_node->work_grade[j] = atof (data[node_idx][j + 3]);
+		current_data_node->work_pos[j] = atoi (data[node_idx][j + 7]);
 	}
 }
 

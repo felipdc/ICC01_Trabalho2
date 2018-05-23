@@ -25,9 +25,10 @@ void data_to_node (char ***data, Data *current_data_node, size_t node_idx) {
 
 void show_student_stats (const char *student_name, Data *students_data) {
 
-	Data *current = students_data->next;
+	Data *current = students_data;
 
 	while (current->next != NULL) {
+		current = current->next;
 		if (strcmp(current->name, student_name) == 0) {
 			 printf("Name: %s\n", student_name);
 			 printf("Nota Prova 1: %0.2f\n", current->test_grade[0]);
@@ -35,11 +36,9 @@ void show_student_stats (const char *student_name, Data *students_data) {
 			 for (int j = 0; j < 4; ++j) {
 			 	printf("Trabalho %d - Nota: %0.2f, Posição no grupo: %u\n", j + 1,
 			 	 current->work_grade[j], current->work_pos[j]);
-			 }
-			 current = current->next;
+			 }	
 			 return;
 		}
-		current = current->next;
 	}
 	printf("Nome '%s' não encontrado no banco de dados. \n", student_name);
 }
@@ -72,14 +71,14 @@ void show_specific_student_stats (const char *student_name,
 					 				int stat_code, Data *students_data) {
 
 	bool found = false;
-	Data *current = students_data->next;
+	Data *current = students_data;
 	// Find student name in data
 	while (current->next != NULL) {
+		current = current->next;
 		if (strcmp(current->name, student_name) == 0) {
 			found = true;
 			break;
 		}
-		current = current->next;
 	} if (!found) {
 		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
 		return;
@@ -169,36 +168,17 @@ void display_data (Data *students_data) {
 	}
 }
 
-void debugname (Data *student_data) {
-	Data *current = student_data;
-	while (current->next != NULL){
-		printf("%s\n", current->name);
-		current = current->next;
-	}
-}
-
-
-void test_node (Data *node) {
-	while (node->next != NULL) {
-		printf ("%s\n", node->name);
-		node = node->next;
-	}
-}
-
-
 
 void push_student (const char *student_name, Data ** student_head) {
 	Data *new_node = malloc (sizeof (Data));
 	Data *last = *student_head;
 
-	strcpy (new_node->name, "dasdsa");
+	strcpy (new_node->name, student_name);
 	new_node->next = NULL;	
 
 	while (last->next != NULL) last = last->next;
 
-	last->next = new_node;
-
-	test_node (last);
+	last->next = new_node;	
 }
 
 

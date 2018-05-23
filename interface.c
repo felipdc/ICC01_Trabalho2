@@ -8,15 +8,17 @@
 void display_splash_screen () {
 	clrscr();
 	printf ("\n\t##### Sistema de Consulta de alunos da discplina ICC-01 ####\n"
-			"\t# \n\t#  Comandos:"
-			"\n\t#\n\t#  0 - Sair\n"
-			"\t#  1 - Mostrar alunos cadastrados\n"
-			"\t#  2 - Mostrar alunos e notas das provas\n"
-			"\t#  3 - Mostrar alunos e notas dos trabalhos + grupos\n"
-			"\t#  4 - Consultar nota das provas de um aluno específico\n"
-			"\t#  5 - Incluir/Remover nota de trabalho\n"
-			"\t#  6 - Incluir/Remover nota de prova\n"
-			"\t#  7 - Incluir/Remover novo aluno\n");
+			"\t#\t\t\t\t\t\t\t   #\n\t#  Comandos:						   #"												
+			"\n\t#\t\t\t\t\t\t\t   #\n\t#  0 - Sair						   #\n"
+			"\t#  1 - Mostrar alunos cadastrados			   #\n"
+			"\t#  2 - Mostrar alunos e notas das provas		   #\n" 
+			"\t#  3 - Mostrar alunos e notas dos trabalhos + grupos	   #\n"
+			"\t#  4 - Consultar nota das provas de um aluno específico    #\n"
+			"\t#  5 - Incluir/Remover nota de trabalho 		   #\n"
+			"\t#  6 - Incluir/Remover nota de prova 			   #\n"
+			"\t#  7 - Incluir/Remover novo aluno 			   #\n"
+			"\t# 							   #\n"
+			"\t############################################################\n");
 }
 
 
@@ -63,11 +65,12 @@ int include_or_remove () {
 
 
 void option_handle (Data *students_data) {
-	Option option = 1;
-	while (option != 0) {
+	char option_read = ' ';
+	while (option_read != '0') {
 		display_splash_screen ();
-		scanf ("%u", &option);
+		scanf ("%c", &option_read);
 		getchar (); // Get return input from keyboard
+		Option option = option_read - '0';
 		switch (option) {
 			case quit:
 				return;

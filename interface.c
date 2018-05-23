@@ -89,8 +89,10 @@ void option_handle (Data *students_data) {
 											students_data);
 				break;
 			case incl_rm_work:
+				insert_student_stat (get_input_name (), students_data, WORK_G_ATRIB);
 				break;
 			case incl_rm_test:
+				insert_student_stat (get_input_name (), students_data, TEST_ATRIB);
 				break;
 			case incl_rm_stud:
 				if (include_or_remove () == 1) {

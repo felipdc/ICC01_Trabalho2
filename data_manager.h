@@ -21,6 +21,13 @@ void data_to_struct (char ***data, Data *students_data, size_t students_size);
 void data_to_node (char ***data, Data *current_data_node, size_t node_idx);
 void show_student_stats (const char *student_name, Data *students_data);
 void show_specific_stats (int stat_code, Data *students_data);
+Data * find_student (const char *student_name, Data *student_data);
+float read_grade ();
+unsigned read_group_pos ();
+
+void insert_student_stat (const char *student_name, Data * students_data,
+							int stat_code);
+
 
 void show_specific_student_stats (const char *student_name,
 					 				int stat_code, Data *students_data);

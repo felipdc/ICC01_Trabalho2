@@ -70,16 +70,9 @@ void show_specific_stats (int stat_code, Data *students_data) {
 void show_specific_student_stats (const char *student_name,
 					 				int stat_code, Data *students_data) {
 
-	bool found = false;
-	Data *current = students_data;
-	// Find student name in data
-	while (current->next != NULL) {
-		current = current->next;
-		if (strcmp(current->name, student_name) == 0) {
-			found = true;
-			break;
-		}
-	} if (!found) {
+	Data *current = find_student (student_name, students_data);
+
+	if (current == NULL) {
 		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
 		return;
 	}
@@ -166,6 +159,94 @@ void display_data (Data *students_data) {
 		printf("%u\n", current->work_pos[3]);
 		current = current->next;
 	}
+}
+
+
+Data * find_student (const char *student_name, Data *student_data) {
+
+	Data *current = student_data;
+
+	while (current->next != NULL) {
+		current = current->next;
+		if (strcmp(current->name, student_name) == 0) {
+			return current;
+		}
+	}
+	// If not found
+	return NULL;
+}
+
+
+void insert_student_stat (const char *student_name, Data * students_data,
+							int stat_code) {
+
+	Data *current = find_student (student_name, students_data);
+
+	if (current == NULL) {
+		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
+	}
+
+	float grade = 0.0;
+	unsigned int posis = 0;
+	
+	switch (stat_code) { 
+		case TEST_ATRIB:
+			for (int test_num = 0; test_num < 2; ++test_num) {
+				printf ("Insira a nota da Prova %d: \n", test_num + 1);
+				grade = read_grade ();
+				current->test_grade[test_num] = grade;
+			}
+			break;
+		case WORK_G_ATRIB:
+			for (int work_num = 0; work_num < 4; ++work_num) {
+				printf ("Insira a nota do Trabalho %d: \n", work_num + 1);
+				grade = read_grade ();
+				current->work_grade[work_num] = grade;
+			}
+			break;
+		case WORK_P_ATRIB:
+			for (int work_num = 0; work_num < 4; ++work_num) {
+				printf ("Insira a Posição no grupo do Trabalho %d: \n",
+						 work_num + 1);
+				posis = read_grade ();
+				current->work_pos[work_num] = posis;
+			}
+			break;
+		default:
+			printf ("Stat not found in database\n");
+	}
+
+}
+
+
+unsigned read_group_pos () {
+	unsigned group_pos = 0;
+	scanf ("%u", &group_pos);
+	getchar ();
+
+	while (group_pos < 0) {
+		printf("Posição inválida, insira novamente!\n");
+		scanf ("%u", &group_pos);
+		getchar ();
+	}
+
+	return group_pos;
+}
+
+
+float read_grade () {
+	float grade = 0.0;
+	scanf ("%f", &grade);
+	getchar ();
+
+	while (grade < 0 || grade > 10) {
+		printf("Nota inválida, insira novamente!\n");
+		scanf ("%f", &grade);
+		getchar ();
+	}
+
+	return grade;
+
 }
 
 

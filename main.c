@@ -10,7 +10,7 @@ void fill_list (size_t size, char ***data) {
 	Data *students_list = malloc (sizeof(Data));
 	students_list->next = NULL;
 
-	Data *current = students_list;
+	Data *current = students_list;	
 
 	for (int i = 1; i < size; ++i) {
 		current->next = malloc(sizeof(Data));
@@ -19,7 +19,7 @@ void fill_list (size_t size, char ***data) {
 		data_to_node (data, current, i);
 	}
 
-	option_handle (students_list);
+	option_handle (students_list, size);
 }
 
 

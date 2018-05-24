@@ -115,6 +115,7 @@ char ***string_data_to_matrix (char *csv_string) {
 
 bool string_to_csv (const char *file_string, FILE *fp) {
 	int result = fputs (file_string, fp);
+	fclose (fp);
 	if (result < 0) return false; // In case of error
 	return true; // else
 }

@@ -254,7 +254,17 @@ void push_student (const char *student_name, Data ** student_head) {
 	Data *new_node = malloc (sizeof (Data));
 	Data *last = *student_head;
 
+	// Add 0 to all other values
 	strcpy (new_node->name, student_name);
+
+	new_node->test_grade[0] = 0;
+	new_node->test_grade[1] = 0;
+
+	for (int i = 0; i < 4; ++i) {
+		new_node->work_pos[i] = 0;
+		new_node->work_grade[i] = 0;
+	}
+
 	new_node->next = NULL;	
 
 	while (last->next != NULL) last = last->next;
@@ -283,7 +293,8 @@ void pop_student (const char *student_name, Data *student_data) {
 
 
 char *data_to_file_string (Data *data, size_t data_size) {
-	Data *current = data->next;
+	
+	Data *current = data;
 	char *new_file_string;
 	new_file_string = malloc (sizeof(Data)*data_size);
 	char *buffer;
@@ -295,6 +306,7 @@ char *data_to_file_string (Data *data, size_t data_size) {
 								"work2pos, work3pos, work4pos");
 
 	while (current->next != NULL) {
+		current = current->next;
 		sprintf(buffer, 
 				"\n%s, %0.2f, %0.2f, %0.2f, %0.2f, " 
 				"%0.2f, %0.2f, %u, %u, %u, %u", 
@@ -305,7 +317,19 @@ char *data_to_file_string (Data *data, size_t data_size) {
 				current->work_pos[1], current->work_pos[2],
 		 		current->work_pos[3]);
 		strcat (new_file_string, buffer);
-		current = current->next;
 	}
 	return new_file_string;
+}
+
+
+void save_to_csv (Data *data, size_t data_size) {
+	FILE *fp;
+	fp = fopen ("students.csv", "w");
+	if (fp == NULL) {
+		printf ("IO Error\n");
+		return;
+	}
+	char *new_file_string = data_to_file_string (data, data_size);
+	string_to_csv (new_file_string, fp);
+	printf ("Dados salvos com sucesso!\n");
 }

@@ -17,6 +17,7 @@ void display_splash_screen () {
 			"\t#  5 - Incluir/Remover nota de trabalho 		   #\n"
 			"\t#  6 - Incluir/Remover nota de prova 			   #\n"
 			"\t#  7 - Incluir/Remover novo aluno 			   #\n"
+			"\t#  8 - Salvar e Sair 					   #\n"
 			"\t# 							   #\n"
 			"\t############################################################\n");
 }
@@ -45,6 +46,7 @@ int get_specific_code () {
 			"\t#\t2 - Consultar nota das provas\n"
 			"\t#\t3 - Consultar nota dos trabalhos\n"
 			"\t#\t4 - Consultar posição nos grupos dos trabalhos\n");
+
 	int stat_code = 0;
 	scanf ("%d", &stat_code);
 	getchar ();
@@ -64,7 +66,7 @@ int include_or_remove () {
 }
 
 
-void option_handle (Data *students_data) {
+void option_handle (Data *students_data, size_t data_size) {
 	char option_read = ' ';
 	while (option_read != '0') {
 		display_splash_screen ();
@@ -100,6 +102,10 @@ void option_handle (Data *students_data) {
 				} else {
 					push_student (get_input_name (), &students_data);
 				}
+				break;
+			case save:
+				save_to_csv (students_data, data_size);
+				return;
 				break;
 			default:
 				printf ("Opção inválida, tente novamente.\n");

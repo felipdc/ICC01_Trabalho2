@@ -45,7 +45,8 @@ int get_specific_code () {
 			"\t#\t1 - Consultar nome\n"
 			"\t#\t2 - Consultar nota das provas\n"
 			"\t#\t3 - Consultar nota dos trabalhos\n"
-			"\t#\t4 - Consultar posição nos grupos dos trabalhos\n");
+			"\t#\t4 - Consultar posicao nos grupos dos trabalhos\n"
+			"\t#\t5 - Consultar tamanho do grupo de um aluno\n");
 
 	int stat_code = 0;
 	scanf ("%d", &stat_code);

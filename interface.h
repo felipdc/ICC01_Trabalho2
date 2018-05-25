@@ -3,7 +3,7 @@
 
 
 #if defined (_WIN32) || defined (_WIN64)
-#include <conio.h>
+#define clrscr() system ("cls")
 #else
 #include <stdio.h>
 #define clrscr() printf("\e[1;1H\e[2J")

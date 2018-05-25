@@ -6,6 +6,7 @@
 #define TEST_ATRIB 2
 #define WORK_G_ATRIB 3
 #define WORK_P_ATRIB 4
+#define WORK_S_ATRIB 5
 
 
 struct dat {
@@ -13,6 +14,11 @@ struct dat {
     float test_grade[2];
     float work_grade[4];
     unsigned work_pos[4];
+    struct {
+    	float grade;
+    	unsigned pos;
+    	unsigned size;
+    } work[4];
     struct dat *next;
 }; typedef struct dat Data;
 

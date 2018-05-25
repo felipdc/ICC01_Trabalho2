@@ -17,8 +17,9 @@ void data_to_node (char ***data, Data *current_data_node, size_t node_idx) {
 	current_data_node->test_grade[1] = atof (data[node_idx][2]);
 	// Assign work grades and work positions
 	for (int j = 0; j < 4; ++j) {
-		current_data_node->work_grade[j] = atof (data[node_idx][j + 3]);
-		current_data_node->work_pos[j] = atoi (data[node_idx][j + 7]);
+		current_data_node->work[j].grade = atof (data[node_idx][j + 3]);
+		current_data_node->work[j].pos = atoi (data[node_idx][j + 7]);
+		current_data_node->work[j].size = atoi (data[node_idx][j + 11]);
 	}
 }
 
@@ -35,7 +36,7 @@ void show_student_stats (const char *student_name, Data *students_data) {
 			 printf("Nota Prova 1: %0.2f\n", current->test_grade[1]);
 			 for (int j = 0; j < 4; ++j) {
 			 	printf("Trabalho %d - Nota: %0.2f, Posição no grupo: %u\n", j + 1,
-			 	 current->work_grade[j], current->work_pos[j]);
+			 	 current->work[j].grade, current->work[j].pos);
 			 }	
 			 return;
 		}
@@ -57,9 +58,10 @@ void show_specific_stats (int stat_code, Data *students_data) {
 				break;
 			case WORK_G_ATRIB:
 				for (int i = 0; i < 4; ++i) {
-					printf("Trabalho %d: Nota: %0.2f, Poisição no grupo: %u\n",
-					 		i + 1, current->work_grade[i],
-					 		current->work_pos[i]);
+					printf("Trabalho %d: Nota: %0.2f, Poisição no grupo: %u\n"
+							"Tamanho do grupo: %u\n\n",
+					 		i + 1, current->work[i].grade,
+					 		current->work[i].pos, current->work[i].size);
 				}
 				break;
 		}
@@ -88,14 +90,20 @@ void show_specific_student_stats (const char *student_name,
 			break;
 		case WORK_G_ATRIB:
 			for (int i = 0; i < 4; ++i) {
-				printf("Nota trabalho %d: %0.2f\n", i + 1, 
-					current->work_grade[i]);
+				printf ("Nota trabalho %d: %0.2f\n", i + 1, 
+					current->work[i].grade);
 			}
 			break;
 		case WORK_P_ATRIB:
 			for (int i = 0; i < 4; ++i) {
-				printf("Posição trabalho %d: %u\n", i + 1,
-					current->work_pos[i]);
+				printf ("Posição trabalho %d: %u\n", i + 1,
+					current->work[i].pos);
+			}
+			break;
+		case WORK_S_ATRIB:
+			for (int i = 0; i < 4; ++i) {
+				printf ("Número de alunos no grupo %d: %u\n", i + 1,
+					current->work[i].size);
 			}
 			break;
 		default:
@@ -303,19 +311,24 @@ char *data_to_file_string (Data *data, size_t data_size) {
 	// Append csv title to new_file_string
 	strcat (new_file_string, "name, mark1, mark2, markwork1, markwork2, "
 								"markwork3, markwork4, work1pos, "
-								"work2pos, work3pos, work4pos");
+								"work2pos, work3pos, work4pos, "
+								"group1sz, group2sz, group3sz, "
+								"group3sz");
 
 	while (current->next != NULL) {
 		current = current->next;
 		sprintf(buffer, 
 				"\n%s, %0.2f, %0.2f, %0.2f, %0.2f, " 
-				"%0.2f, %0.2f, %u, %u, %u, %u", 
+				"%0.2f, %0.2f, %u, %u, %u, %u, " 
+				"%u, %u, %u, %u", 
 				current->name, current->test_grade[0],
-				current->test_grade[1], current->work_grade[0],
-				current->work_grade[1], current->work_grade[2],
-				current->work_grade[3], current->work_pos[0],
-				current->work_pos[1], current->work_pos[2],
-		 		current->work_pos[3]);
+				current->test_grade[1], current->work[0].grade,
+				current->work[1].grade, current->work[2].grade,
+				current->work[3].grade, current->work[0].pos,
+				current->work[1].pos, current->work[2].pos,
+		 		current->work[3].pos, current->work[0].size,
+				current->work[1].size, current->work[2].size,
+				current->work[3].size);
 		strcat (new_file_string, buffer);
 	}
 	return new_file_string;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <math.h>
 #include "csv_parser.h"
 #include "data_manager.h"
 
@@ -59,9 +60,13 @@ void show_specific_stats (int stat_code, Data *students_data) {
 			case WORK_G_ATRIB:
 				for (int i = 0; i < 4; ++i) {
 					printf("Trabalho %d: Nota: %0.2f, Poisição no grupo: %u\n"
-							"Tamanho do grupo: %u\n\n",
+							"Tamanho do grupo: %u\n"
+							"Nota individual: %0.2f\n\n",
 					 		i + 1, current->work[i].grade,
-					 		current->work[i].pos, current->work[i].size);
+					 		current->work[i].pos, current->work[i].size,
+					 		indv_work_grade (current->work[i].grade, 
+					 							current->work[i].pos,
+					 							current->work[i].size));
 				}
 				break;
 		}
@@ -130,46 +135,6 @@ int get_stat_code (const char *goal_name) {
 }
 
 
-void display_data (Data *students_data) {
-	printf ("\nName:\tTest 1 Grade:\tTest 2 Grade:\tWork 1 Grade:\t"
-			"Work 2 Grade:\n");
-
-	Data *current = students_data->next;
-
-	while (current->next != NULL){
-		printf("%s\t", current->name);
-		printf("%0.2f\t\t", current->test_grade[0]);
-		printf("%0.2f\t\t", current->test_grade[1]);
-		printf("%0.2f\t\t", current->work_grade[0]);
-		printf("%0.2f\n", current->work_grade[1]);
-		current = current->next;
-	}
-
-	printf ("\nWork 3 Grade:\tWork 4 Grade:\tWork 1 Pos:\tWork 2 Pos:\t"
-			"Work 3 Pos:\n");
-
-	current = students_data->next;
-
-	while (current->next != NULL) {
-		printf("%0.2f\t\t", current->work_grade[2]);
-		printf("%0.2f\t\t", current->work_grade[3]);
-		printf("%u\t\t", current->work_pos[0]);
-		printf("%u\t\t", current->work_pos[1]);
-		printf("%u\n", current->work_pos[2]);
-		current = current->next;
-	}
-
-	current = students_data->next;
-
-	printf ("\nWork 4 Pos:\n");
-
-	while (current->next != NULL){
-		printf("%u\n", current->work_pos[3]);
-		current = current->next;
-	}
-}
-
-
 Data * find_student (const char *student_name, Data *student_data) {
 
 	Data *current = student_data;
@@ -185,6 +150,11 @@ Data * find_student (const char *student_name, Data *student_data) {
 }
 
 
+float indv_work_grade (float grade, unsigned pos, unsigned sz) {
+	return (grade * (1 + 0.05 * (sz - 1)) * pow (0.9, pos));
+}
+
+
 void insert_student_stat (const char *student_name, Data * students_data,
 							int stat_code) {
 
@@ -192,10 +162,10 @@ void insert_student_stat (const char *student_name, Data * students_data,
 
 	if (current == NULL) {
 		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
+		return;
 	}
 
 	float grade = 0.0;
-	unsigned int posis = 0;
 	
 	switch (stat_code) { 
 		case TEST_ATRIB:
@@ -209,15 +179,23 @@ void insert_student_stat (const char *student_name, Data * students_data,
 			for (int work_num = 0; work_num < 4; ++work_num) {
 				printf ("Insira a nota do Trabalho %d: \n", work_num + 1);
 				grade = read_grade ();
-				current->work_grade[work_num] = grade;
+				current->work[work_num].grade = grade;
 			}
 			break;
 		case WORK_P_ATRIB:
 			for (int work_num = 0; work_num < 4; ++work_num) {
 				printf ("Insira a Posição no grupo do Trabalho %d: \n",
 						 work_num + 1);
-				posis = read_grade ();
-				current->work_pos[work_num] = posis;
+				unsigned posis = read_group_pos ();
+				current->work[work_num].pos = posis;
+			}
+			break;
+		case WORK_S_ATRIB:
+			for (int work_num = 0; work_num < 4; ++work_num) {
+				printf ("Insira o tamanho do grupo do Trabalho %d: \n",
+						 work_num + 1);
+				unsigned sz = read_group_pos ();
+				current->work[work_num].size = sz;
 			}
 			break;
 		default:
@@ -257,7 +235,6 @@ float read_grade () {
 
 }
 
-
 void push_student (const char *student_name, Data ** student_head) {
 	Data *new_node = malloc (sizeof (Data));
 	Data *last = *student_head;
@@ -269,8 +246,9 @@ void push_student (const char *student_name, Data ** student_head) {
 	new_node->test_grade[1] = 0;
 
 	for (int i = 0; i < 4; ++i) {
-		new_node->work_pos[i] = 0;
-		new_node->work_grade[i] = 0;
+		new_node->work[i].grade = 0;
+		new_node->work[i].pos = 0;
+		new_node->work[i].size = 1;
 	}
 
 	new_node->next = NULL;	

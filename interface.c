@@ -3,8 +3,15 @@
 #include "data_manager.h"
 #include "csv_parser.h"
 #include "interface.h"
+#include "utils.h"
 
-	
+
+/**
+ *
+ *	Tela inicial com as opcoes do programa
+ *
+ */
+
 void display_splash_screen () {
 	clrscr();
 	printf ("\n\t##### Sistema de Consulta de alunos da discplina ICC-01 ####\n"
@@ -29,8 +36,12 @@ void back_to_menu_message () {
 }
 
 
+/*
+ *	Le do usuario o nome de um determinado aluno
+ */
+
 char *get_input_name () {
-	printf ("Digite o nome do aluno em questão.\n");
+	printf ("Digite o nome do aluno em questo.\n");
 	char *name = malloc (256);
 	scanf ("%s", name);
 	getchar (); // Get return input from keyboard
@@ -38,9 +49,13 @@ char *get_input_name () {
 }
 
 
+/*
+ *	Interpreta a informacao que o usuario deseja consultar/alterar
+ */
+
 int get_specific_code () {
 	clrscr ();
-	printf ("\t###\tConsulta de dados específicos: \t ###\n\n"
+	printf ("\t###\tConsulta de dados especificos: \t ###\n\n"
 			"\t#\tComandos:\n"
 			"\t#\t1 - Consultar nome\n"
 			"\t#\t2 - Consultar nota das provas\n"
@@ -54,7 +69,11 @@ int get_specific_code () {
 	return stat_code;
 }
 
-// Return 0 to include, 1 to remove
+
+/*
+ *	Decide se o usuario quer remover ou incluir uma informacao
+*/
+
 int include_or_remove () {
 	int choose = -1;
 	printf ("\t ### Digite 0 para incluir ou 1 para excluir\n");
@@ -66,6 +85,10 @@ int include_or_remove () {
 	return choose;
 }
 
+
+/*
+ *	Le e interpreta as opcoes escolhidas pelo usuario na tela inicial
+ */
 
 void option_handle (Data *students_data, size_t data_size) {
 	char option_read = ' ';
@@ -109,7 +132,7 @@ void option_handle (Data *students_data, size_t data_size) {
 				return;
 				break;
 			default:
-				printf ("Opção inválida, tente novamente.\n");
+				printf ("Opcao invalida, tente novamente.\n");
 		}
 		back_to_menu_message ();
 	}

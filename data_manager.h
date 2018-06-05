@@ -27,10 +27,6 @@ void show_student_stats (const char *student_name, Data *students_data);
 void save_to_csv (Data *data, size_t data_size);
 void show_specific_stats (int stat_code, Data *students_data);
 Data * find_student (const char *student_name, Data *student_data);
-float read_grade ();
-float indv_work_grade (float grade, unsigned pos, unsigned sz);
-unsigned read_group_pos ();
-unsigned read_pos ();
 void insert_student_stat (const char *student_name, Data * students_data,
 							int stat_code);
 
@@ -38,7 +34,6 @@ void insert_student_stat (const char *student_name, Data * students_data,
 void show_specific_student_stats (const char *student_name,
 					 				int stat_code, Data *students_data);
 
-int get_stat_code (const char *goal_name);
 void push_student (const char *student_name, Data **students_data);
 void pop_student (const char *student_name, Data *students_data);
 char *data_to_file_string (Data *data, size_t data_size);

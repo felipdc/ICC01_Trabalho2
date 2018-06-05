@@ -4,11 +4,14 @@
 #include <math.h>
 #include "csv_parser.h"
 #include "data_manager.h"
+#include "utils.h"
 
 
-const char *g_stats_names[] = {"name", "test_grade", "work_grade", 
-							"work_pos"};
 
+/*
+ *	Passa para a lista encadeada as informacoes dos alunos
+ *	guardadas em um array 3x3
+ */
 
 void data_to_node (char ***data, Data *current_data_node, size_t node_idx) {
 	// Assign students names
@@ -24,6 +27,10 @@ void data_to_node (char ***data, Data *current_data_node, size_t node_idx) {
 	}
 }
 
+
+/*
+ *	Imprime na tela todas as informacoes de todos os alunos
+ */
 
 void show_student_stats (const char *student_name, Data *students_data) {
 
@@ -45,6 +52,10 @@ void show_student_stats (const char *student_name, Data *students_data) {
 	printf("Nome '%s' nao encontrado no banco de dados. \n", student_name);
 }
 
+
+/*
+ *	Mostra informacoes especificas de todos os alunos
+ */
 
 void show_specific_stats (int stat_code, Data *students_data) {
 	Data *current = students_data;
@@ -72,6 +83,11 @@ void show_specific_stats (int stat_code, Data *students_data) {
 		}
 	}
 }
+
+
+/*
+ *	Mostra uma informacao especifica de um aluno especifico
+ */
 
 
 void show_specific_student_stats (const char *student_name,
@@ -118,21 +134,7 @@ void show_specific_student_stats (const char *student_name,
 }
 
 
-int get_stat_code (const char *goal_name) {
-	if (strcmp (goal_name, g_stats_names[0]) == 0) {
-		return NAME_ATRIB;
-	}
-	if (strcmp (goal_name, g_stats_names[1]) == 0) {
-		return TEST_ATRIB;
-	}
-	if (strcmp (goal_name, g_stats_names[2]) == 0) {
-		return WORK_G_ATRIB;
-	}
-	if (strcmp (goal_name, g_stats_names[3]) == 0) {
-		return WORK_P_ATRIB;
-	}
-	return -1; // In case of no stat name
-}
+// Retorna o nó de determinado aluno
 
 
 Data * find_student (const char *student_name, Data *student_data) {
@@ -150,11 +152,8 @@ Data * find_student (const char *student_name, Data *student_data) {
 }
 
 
-float indv_work_grade (float grade, unsigned pos, unsigned sz) {
-	return (grade * (1 + 0.05 * (sz - 1)) * pow (0.9, pos));
-}
-
-
+// Insere informacao para um determinado aluno
+	
 void insert_student_stat (const char *student_name, Data * students_data,
 							int stat_code) {
 
@@ -205,35 +204,9 @@ void insert_student_stat (const char *student_name, Data * students_data,
 }
 
 
-unsigned read_group_pos () {
-	unsigned group_pos = 0;
-	scanf ("%u", &group_pos);
-	getchar ();
-
-	while (group_pos < 0) {
-		printf("Posicao invalida, insira novamente!\n");
-		scanf ("%u", &group_pos);
-		getchar ();
-	}
-
-	return group_pos;
-}
-
-
-float read_grade () {
-	float grade = 0.0;
-	scanf ("%f", &grade);
-	getchar ();
-
-	while (grade < 0 || grade > 10) {
-		printf("Nota invalida, insira novamente!\n");
-		scanf ("%f", &grade);
-		getchar ();
-	}
-
-	return grade;
-
-}
+/*
+ * Insere na lista encadeada um novo aluno com notas nulas
+ */
 
 void push_student (const char *student_name, Data ** student_head) {
 	Data *new_node = malloc (sizeof (Data));
@@ -259,6 +232,9 @@ void push_student (const char *student_name, Data ** student_head) {
 }
 
 
+/*
+ *	Remove um aluno da lista
+ */
 
 void pop_student (const char *student_name, Data *student_data) {
 	Data *current = student_data;
@@ -276,6 +252,9 @@ void pop_student (const char *student_name, Data *student_data) {
 	// Else
 	printf ("Nome '%s' nao encontrado no banco de dados. \n", student_name);
 }
+
+
+// Coloca a lista de alunos em formato de string
 
 
 char *data_to_file_string (Data *data, size_t data_size) {
@@ -312,6 +291,10 @@ char *data_to_file_string (Data *data, size_t data_size) {
 	return new_file_string;
 }
 
+
+/*
+ *	Salva todas as alteracoes para o disco no formato csv
+ */
 
 void save_to_csv (Data *data, size_t data_size) {
 	FILE *fp;

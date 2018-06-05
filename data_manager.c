@@ -36,13 +36,13 @@ void show_student_stats (const char *student_name, Data *students_data) {
 			 printf("Nota Prova 1: %0.2f\n", current->test_grade[0]);
 			 printf("Nota Prova 1: %0.2f\n", current->test_grade[1]);
 			 for (int j = 0; j < 4; ++j) {
-			 	printf("Trabalho %d - Nota: %0.2f, Posição no grupo: %u\n", j + 1,
+			 	printf("Trabalho %d - Nota: %0.2f, Posicao no grupo: %u\n", j + 1,
 			 	 current->work[j].grade, current->work[j].pos);
 			 }	
 			 return;
 		}
 	}
-	printf("Nome '%s' não encontrado no banco de dados. \n", student_name);
+	printf("Nome '%s' nao encontrado no banco de dados. \n", student_name);
 }
 
 
@@ -59,7 +59,7 @@ void show_specific_stats (int stat_code, Data *students_data) {
 				break;
 			case WORK_G_ATRIB:
 				for (int i = 0; i < 4; ++i) {
-					printf("Trabalho %d: Nota: %0.2f, Poisição no grupo: %u\n"
+					printf("Trabalho %d: Nota: %0.2f, Poisicao no grupo: %u\n"
 							"Tamanho do grupo: %u\n"
 							"Nota individual: %0.2f\n\n",
 					 		i + 1, current->work[i].grade,
@@ -80,7 +80,7 @@ void show_specific_student_stats (const char *student_name,
 	Data *current = find_student (student_name, students_data);
 
 	if (current == NULL) {
-		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
+		printf ("Nome '%s' nao encontrado no banco de dados. \n", student_name);
 		return;
 	}
 	
@@ -101,7 +101,7 @@ void show_specific_student_stats (const char *student_name,
 			break;
 		case WORK_P_ATRIB:
 			for (int i = 0; i < 4; ++i) {
-				printf ("Posição trabalho %d: %u\n", i + 1,
+				printf ("Posicao trabalho %d: %u\n", i + 1,
 					current->work[i].pos);
 			}
 			break;
@@ -161,7 +161,7 @@ void insert_student_stat (const char *student_name, Data * students_data,
 	Data *current = find_student (student_name, students_data);
 
 	if (current == NULL) {
-		printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
+		printf ("Nome '%s' nao encontrado no banco de dados. \n", student_name);
 		return;
 	}
 
@@ -184,7 +184,7 @@ void insert_student_stat (const char *student_name, Data * students_data,
 			break;
 		case WORK_P_ATRIB:
 			for (int work_num = 0; work_num < 4; ++work_num) {
-				printf ("Insira a Posição no grupo do Trabalho %d: \n",
+				printf ("Insira a Posicao no grupo do Trabalho %d: \n",
 						 work_num + 1);
 				unsigned posis = read_group_pos ();
 				current->work[work_num].pos = posis;
@@ -211,7 +211,7 @@ unsigned read_group_pos () {
 	getchar ();
 
 	while (group_pos < 0) {
-		printf("Posição inválida, insira novamente!\n");
+		printf("Posicao invalida, insira novamente!\n");
 		scanf ("%u", &group_pos);
 		getchar ();
 	}
@@ -226,7 +226,7 @@ float read_grade () {
 	getchar ();
 
 	while (grade < 0 || grade > 10) {
-		printf("Nota inválida, insira novamente!\n");
+		printf("Nota invalida, insira novamente!\n");
 		scanf ("%f", &grade);
 		getchar ();
 	}
@@ -274,7 +274,7 @@ void pop_student (const char *student_name, Data *student_data) {
 		current = current->next;
 	}
 	// Else
-	printf ("Nome '%s' não encontrado no banco de dados. \n", student_name);
+	printf ("Nome '%s' nao encontrado no banco de dados. \n", student_name);
 }
 
 

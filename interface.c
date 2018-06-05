@@ -13,7 +13,7 @@ void display_splash_screen () {
 			"\t#  1 - Mostrar alunos cadastrados			   #\n"
 			"\t#  2 - Mostrar alunos e notas das provas		   #\n" 
 			"\t#  3 - Mostrar alunos e notas dos trabalhos + grupos	   #\n"
-			"\t#  4 - Consultar nota das provas de um aluno específico    #\n"
+			"\t#  4 - Consultar nota das provas de um aluno especifico    #\n"
 			"\t#  5 - Incluir/Remover nota de trabalho 		   #\n"
 			"\t#  6 - Incluir/Remover nota de prova 			   #\n"
 			"\t#  7 - Incluir/Remover novo aluno 			   #\n"

@@ -10,7 +10,7 @@ As instruçes a seguir foram feitas para gerar uma cópia funcional do programa 
 ### Compilação
 
 ```
-gcc -o main main.c csv_parser.c data_manager.c interface.c utils.c -lm 
+make 
 ```
 ### Execução
 

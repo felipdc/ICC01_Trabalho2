@@ -10,7 +10,7 @@ As instruçes a seguir foram feitas para gerar uma cópia funcional do programa 
 ### Compilação
 
 ```
-make 
+$ make 
 ```
 ### Execução
 
@@ -23,7 +23,7 @@ main
 Linux:
 
 ```
-./main
+$ ./main
 ```
 
 Para testes, execute com o arquivo students.csv já na pasta do projeto.
